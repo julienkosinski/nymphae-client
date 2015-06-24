@@ -22,4 +22,5 @@ if [ "$line" != "stop-all-bootime" ]; then
 
 	done
 	echo "stop-all-bootime" > datas
+	python lcd.py $macAddressReformat
 fi
