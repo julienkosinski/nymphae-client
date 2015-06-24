@@ -77,7 +77,7 @@ def main():
  
     # Send some test
     lcd_string("Veuillez entrer",LCD_LINE_1)
-    lcd_string(str(sys.argv),LCD_LINE_2)
+    lcd_string(str(sys.argv[1]),LCD_LINE_2)
  
 def lcd_init():
   # Initialise display
@@ -156,6 +156,4 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     pass
   finally:
-    lcd_byte(0x01, LCD_CMD)
-    lcd_string("Goodbye!",LCD_LINE_1)
     GPIO.cleanup()

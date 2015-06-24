@@ -1,8 +1,9 @@
 #!/bin/bash
-NAMEINTERFACE="eth1"
-HOST="localhost:3000"
+NAMEINTERFACE="eth0"
+ABSOLHOST="nymphae.meteor.com"
+ABSOLPATH="/opt/nymphae-client"
 
-line=$(head -n 1 datas)
+line=$(head -n 1 $ABSOLPATH/datas)
 
 if [ "$line" != "stop-all-bootime" ]; then
 	INTERRUPT=0
@@ -10,7 +11,7 @@ if [ "$line" != "stop-all-bootime" ]; then
 	while [ "$INTERRUPT" -eq 0 ]; do
 		macAddress="$(cat /sys/class/net/$NAMEINTERFACE/address | tail -c 9)"
 		macAddressReformat="${macAddress//:}"
-		response="$(curl -s -d"{\"macAddress\":\"$macAddressReformat\",\"firstTime\":true}" -i -X POST -H "Content-Type:application/json" http://$HOST/api/devices)"
+		response="$(curl -s -d"{\"macAddress\":\"$macAddressReformat\",\"firstTime\":true}" -i -X POST -H "Content-Type:application/json" http://$ABSOLHOST/api/devices)"
 		respFirstLine="$(printf %s $response)"
 
 		flag=`echo $respFirstLine|awk '{print match($0,"success")}'`;
@@ -21,6 +22,6 @@ if [ "$line" != "stop-all-bootime" ]; then
 		fi
 
 	done
-	echo "stop-all-bootime" > datas
-	python lcd.py $macAddressReformat
+	echo "stop-all-bootime" > $ABSOLPATH/datas
+	python $ABSOLPATH/lcd.py $macAddressReformat
 fi
